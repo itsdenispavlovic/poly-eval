@@ -1,6 +1,25 @@
 import React from 'react';
 import Sketch from "react-p5";
-function App() {
+
+/**
+ * Main Component
+ *
+ * @property int WIDTH
+ * @property int HEIGHT
+ * @property string TOP
+ * @property string CENTER
+ * @property string BOTTOM
+ * @property string LEFT
+ * @property string RIGHT
+ * @property array coefficienti
+ * @property array input
+ * @property array output
+ * @property int inputIndex
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const Main = () => {
     let WIDTH = 1000;
     let HEIGHT = 600;
 
@@ -12,13 +31,18 @@ function App() {
     const RIGHT = "right";
     // "center" | "end" | "left" | "right" | "start";
 
-    // 2x^2 + 2x + 1
-    const coefficienti = [2, 2, 1];
+    // x^2 + 2x + 1
+    const coefficienti = [1, 2, 1];
     const input = Array.from({length: 10}, (x, i) => i+1); // 1..10
     const output = [];
 
     let inputIndex = 0;
 
+    /**
+     * Cells
+     *
+     * @type {{a: *, pin: null, pout: null, xin: null, xout: null}[]}
+     */
     let cells = coefficienti.map(c => ({
         a: c,
         xin: null,
@@ -27,6 +51,9 @@ function App() {
         pout: null
     }));
 
+    /**
+     * Step
+     */
     const step = () => {
         cells[0].pin = inputIndex < input.length ? 0 : null;
         cells[0].xin = inputIndex < input.length ? input[inputIndex] : null;
@@ -48,6 +75,12 @@ function App() {
     }
 
 
+    /**
+     * Setup
+     *
+     * @param p5
+     * @param canvasParentRef
+     */
     let setup = (p5, canvasParentRef) => {
         //Canvas of size WIDTHxHEIGHT
         p5.createCanvas(WIDTH, HEIGHT).parent(canvasParentRef);
@@ -57,6 +90,11 @@ function App() {
         }
     };
 
+    /**
+     * Draw
+     *
+     * @param p5
+     */
     let draw = (p5) => {
         p5.clear();
         p5.textAlign(LEFT, BOTTOM)
@@ -124,4 +162,4 @@ function App() {
     );
 }
 
-export default App;
+export default Main;
